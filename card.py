@@ -1,16 +1,17 @@
 from collections import deque
 
 class Card:
-    def __init__(self, rank: str, suit: str):
+    def __init__(self, rank: str, suit: str, rank_num: int = 0):
         self._suit = suit
         self._rank = rank
         self.is_opened = False
         self._icons = self.get_icons()
+        self.rank_num = rank_num
 
     def get_icons(self) -> deque[tuple[str, ...], ...]:
         reset = '\u001b[0m'
         card = ()
-        color = '180;0;0' if self._suit == 'heartes' or self._suit == 'diamonds' else '0;0;0'  
+        color = '180;0;0' if self._suit == 'hearts' or self._suit == 'diamonds' else '0;0;0'  
 
         opened_style = f'\u001b[48;2;200;200;200m\u001b[38;2;{color}m'
         opened_card = (
@@ -37,15 +38,26 @@ class Card:
         return self._icons[0]
 
     @property 
-    def rank(self):
+    def rank(self) -> str:
         return self._rank[0]
-    
+
+    @property 
+    def color(self) -> str:
+        match self._suit:
+            case "spades" | "clubs":
+                return "black"
+            case "hearts" | "diamonds":
+                return "red"
+            case _:
+                return ""
+
+
     @property
     def suit(self) -> str:
         match self._suit:
             case "spades":
                 return "♠"
-            case "heartes":
+            case "hearts":
                 return "❤"
             case "clubs":
                 return "♣"
@@ -57,7 +69,7 @@ class Card:
     def draw(self, col: int, row: int) -> None:
         for i, r in enumerate(self.icon):
             position = f'\u001b[{row + i};{col}f'
-            print(position + r)
+            print(position + r, end="")
         
 
 

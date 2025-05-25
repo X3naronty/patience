@@ -2,14 +2,22 @@ import time
 from card import Card
 import random
 from collections import deque
+from card_pile import CardPile
 
-class CardDeck:
+class CardDeck(CardPile):
     suits = ['hearts', 'diamonds', 'clubs', 'spades']
-    ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
+    ranks = ['Ace', '⒉', '⒊', '⒋', '⒌', '⒍', '⒎',
+             '⒏', '⒐', '⒑', 'Jack', 'Queen', 'King']
+    card_count = len(suits) * len(ranks)
 
     def __init__(self):
-        self.cards = deque([Card(rank, suit) for rank in CardDeck.ranks for suit in CardDeck.suits])
-        random.shuffle(self.cards)
+        cards = deque([Card(rank, suit, rank_num) for rank_num, rank in enumerate(CardDeck.ranks) for suit in CardDeck.suits])
+        super().__init__(cards)
+        random.shuffle(self._cards)
+        
+    def take_cards(self, num: int) -> deque[Card]:
+        cards = super()._take_cards(num)
+        return cards
 
         
 
