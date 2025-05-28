@@ -1,8 +1,10 @@
-from card import Card
 from collections import deque
+
+from card import Card
 from card_pile import CardPile
 
-class EndPilesArea():
+
+class EndPilesArea:
     def __init__(self):
         self.piles = [
             CardPile(),
@@ -21,32 +23,20 @@ class EndPilesArea():
     def draw(self, col: int, row: int) -> None:
         pos = col
         for pile in self.piles:
-            pile.draw(pos, 1)
+            pile.draw(pos, row)
             pos += 6
 
     def put_card(self, card: Card) -> None:
         for pile in self.piles:
             if not pile:
+                # one of the end piles is empty
                 if card.rank_num == 0:     
-                    pile._put_cards(deque([card]))
+                    pile.put_cards(deque([card]))
                     return
             elif pile[-1].rank_num + 1 == card.rank_num and pile[-1].suit == card.suit:
-                pile._put_cards(deque([card]))
+                # one of the end piles is not empty 
+                # and you can put card accoring to rules
+                pile.put_cards(deque([card]))
                 return
        
         raise ValueError("You can't add this card to the end stack")
-
-if __name__ == "__main__":
-    a = EndPilesArea()
-    card_1 = Card('Ace', 'spades', 0)
-    card_2 = Card('2', 'spades', 1)
-    card_3 = Card('Ace', 'heartes', 0)
-    card_1.flip()
-    card_2.flip()
-    card_3.flip()
-
-    a.put_card(card_1)
- 
-    # a.put_card(card_2)
-    a.put_card(card_3)
-    a.draw()
