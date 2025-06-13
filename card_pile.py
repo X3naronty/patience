@@ -1,5 +1,7 @@
 from collections import deque
+
 from card import Card
+
 
 class CardPile: 
     _field_style = '\u001b[38;2;255;255;255m'
@@ -9,70 +11,50 @@ class CardPile:
         '▏  ▕',
         '🭼▁▁🭿'
     )
+    bg = '\u001b[48;2;0;105;0m'  # green background
 
     def __init__(self, cards: deque[Card] = None):
-        if cards is None: self._cards = deque([])
+        if cards is None: 
+            self.cards = deque([])
         else: 
-            self._cards = cards
+            self.cards = cards
 
     def __len__(self):
-        return len(self._cards)
+        return len(self.cards)
     
     def __getitem__(self, index):
-        return self._cards[index]
+        return self.cards[index]
     
     def __bool__(self):
-        return bool(self._cards)
+        return bool(self.cards)
 
     def draw_card_field(self, col: int, row: int) -> None:
-        field_icon = self._field_icon
+        field_icon = CardPile._field_icon
+        field_icon_style = CardPile._field_style + CardPile.bg
+        reset = CardPile._reset
         for i, r in enumerate(field_icon):
+            position = f'\u001b[{i+row};{col}H'
             print(
-                f'\u001b[{i+row};{col}H' +
-                f'{self._field_style}' +
+                f'{position}' +
+                f'{field_icon_style}' +
                 f'{r}' +
-                f'{self._reset}'
+                f'{reset}'
             )
 
-    def _take_cards(self, num: int) -> deque[Card]:
-        if len(self._cards) < num:
+    def take_cards(self, num: int) -> deque[Card]:
+        if len(self.cards) < num:
             raise ValueError("There are not enough cards in the pile")
         cards = deque([])
         for i in range(num):
-            cards.append(self._cards.pop())
+            cards.append(self.cards.pop())
         
         return cards
     
-    def _put_cards(self, cards: deque[Card]) -> None:
-        self._cards.extend(cards)
+    def put_cards(self, cards: deque[Card]) -> None:
+        self.cards.extend(cards)
         
     def draw(self, col: int, row: int):
-        if self._cards:
-            self._cards[-1].draw(col, row)
+        if self.cards:
+            self.cards[-1].draw(col, row)
         else:
             self.draw_card_field(col, row)
-        
-
-if __name__ == '__main__':
-    card_1 = Card('Ace', 'clubs', 0)
-    card_2 = Card('Ace', 'hearts', 0)
-
-    a = CardPile(
-        deque([card_1, card_2])
-    )
-
-    b = CardPile(
-        deque([
-            
-        ])
-    )
-
-    cards = a._take_cards(2)
-    for card in cards:
-        print(card.rank, card.suit)
-    # print(a._cards)
-    # b._put_cards(card)
-    # card = a._take_cards(1)
-    # b._put_cards(card)
-    # a.draw(1, 1)
-    # b.draw(6, 1)

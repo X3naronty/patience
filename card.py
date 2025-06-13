@@ -7,10 +7,9 @@ class Card:
         self.is_opened = False
         self._icons = self.get_icons()
         self.rank_num = rank_num
-
-    def get_icons(self) -> deque[tuple[str, ...], ...]:
+    
+    def get_icons(self) -> deque[tuple[str, ...]]:
         reset = '\u001b[0m'
-        card = ()
         color = '180;0;0' if self._suit == 'hearts' or self._suit == 'diamonds' else '0;0;0'  
 
         opened_style = f'\u001b[48;2;200;200;200m\u001b[38;2;{color}m'
@@ -27,7 +26,6 @@ class Card:
             closed_style + '🭼▁▁🭿' + reset
         )
         return deque([closed_card, opened_card])
- 
 
     def flip(self):
         self.is_opened = not self.is_opened
@@ -39,6 +37,7 @@ class Card:
 
     @property 
     def rank(self) -> str:
+        # On the card is only first symbol of rank is visible
         return self._rank[0]
 
     @property 
@@ -46,11 +45,8 @@ class Card:
         match self._suit:
             case "spades" | "clubs":
                 return "black"
-            case "hearts" | "diamonds":
-                return "red"
             case _:
-                return ""
-
+                return "red"
 
     @property
     def suit(self) -> str:
@@ -58,13 +54,11 @@ class Card:
             case "spades":
                 return "♠"
             case "hearts":
-                return "❤"
+                return "♥"
             case "clubs":
                 return "♣"
-            case "diamonds":
-                return "◆"
             case _:
-                return ""
+                return "◆"
     
     def draw(self, col: int, row: int) -> None:
         for i, r in enumerate(self.icon):
@@ -75,7 +69,5 @@ class Card:
 
 
 
-# cards = [Card() for _ in range(Card.quantity)]
-# for card in cards:
-#     print((card.rank + ' ' +card.suit).ljust(8))
+
     

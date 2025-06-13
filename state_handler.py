@@ -1,13 +1,10 @@
-from collections import deque
 import copy
+from collections import deque
 
 class StateHandler:
     def __init__(self):
         self._states = deque([])
         self.max_size = 4
-        
-    def __getitem__(self, index):
-        return self._states[index]
     
     def __bool__(self):
         return bool(self._states)
@@ -23,7 +20,7 @@ class StateHandler:
         
     def take_previous_state(self):
         if not self:
-            raise ValueError("Nie możesz więcej się cofnąć")
+            raise ValueError("You can't go back anymore")
         return self._states.popleft()
         
     
