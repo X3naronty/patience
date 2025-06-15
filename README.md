@@ -18,28 +18,28 @@ Steps (in console):
 
 This is manual, write commands following all the spaces and characters:
 
-Move from column to column:
-    (1 - 7) > (1 - 7) =(card count)
+Move from column to column:<br>
+    (1 - 7) > (1 - 7) =(card count)<br>
     1 > 2 =3
 
-Move from reserve pile to column:
-    s_r > (1 - 7)
+Move from reserve pile to column:<br>
+    s_r > (1 - 7)<br>
     s_r > 2
 
-Move from reserve pile to column:
+Move from reserve pile to column:<br>
     s_r > s_k
 
-Shuffle reserve pile:
+Shuffle reserve pile:<br>
     reset s_r
 
-Open from reserve pile:
+Open from reserve pile:<br>
     open s_r
 
-Restart:
+Restart:<br>
     restart
 
-Go back 1 step:
+Go back 1 step:<br>
     back
 
-Quit:
+Quit:<br>
     quit
